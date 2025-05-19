@@ -1,0 +1,277 @@
+#root {
+  max-width: 1280px; /* Overall page max-width */
+  margin: 0 auto;   /* Center #root */
+  padding: 0;       /* Remove #root padding */
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f9; /* Light mode body background */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Changed from center for sticky header */
+  min-height: 100vh;
+  color: #333; /* Default text color for light mode */
+}
+
+.app {
+  width: 100vw;
+  overflow: hidden; /* Prevent overflow for the app */
+  /* max-width: 768px; Max width for the app content area */
+  margin: 0 auto;   /* Center .app within #root */
+  text-align: center;
+  
+  padding-top: 70px; /* Adjusted space for the sticky .input-container, assuming its height */
+  padding-bottom: 0; 
+  box-sizing: border-box;
+}
+
+h1 {
+  color: #333; /* Default h1 color for light mode */
+  margin-bottom: 20px;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  gap: 8px; 
+  
+  position: fixed; /* Changed to fixed for very top */
+  top: 0;
+  left: 0; /* Ensure it starts from the left edge */
+  right: 0; /* Ensure it spans to the right edge */
+  background-color: #f4f4f9; 
+  padding: 10px; /* Base padding, will be overridden for mobile if needed */
+  z-index: 100;
+  box-sizing: border-box;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+  /* max-width: 768px; // Removed to allow full width, content inside can be constrained if needed */
+  /* margin: 0 auto; // Removed as it's full width fixed */
+}
+
+.input-container-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    max-width: 768px; /* Constrains the input and button within the full-width bar */
+    margin: 0 auto; /* Centers the content */
+}
+
+.input-container input[type="text"] {
+  flex-grow: 1;
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 4px; 
+  font-size: 16px;
+  outline: none;
+}
+
+.input-container input[type="text"]:focus {
+  border-color: #007bff;
+}
+
+.input-container button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px; 
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s ease;
+}
+
+.input-container button:hover {
+  background-color: #0056b3;
+}
+
+.todo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.todo-item {
+  background-color: #fff;
+  padding-top: 25px; /* Increased padding */
+  padding-bottom: 25px; /* Increased padding */
+  padding-left: 10px; /* Default padding for content inside item */
+  padding-right: 10px; /* Default padding for content inside item */
+  border-bottom: 1px solid #eee; /* Separator between items */
+  /* border-left, border-right, border-top, border-radius, margin-bottom removed for no-padding style */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.3s ease, transform 0.2s ease-out; /* Added transform transition */
+  user-select: none; /* Prevent text selection during drag */
+  position: relative; /* For pseudo-elements */
+  overflow: hidden; /* Hide pseudo-elements initially */
+}
+
+.todo-item::before,
+.todo-item::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50px; /* Width of the swipe indicator */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+  transition: transform 0.2s ease-out;
+}
+
+.todo-item::before {
+  /* content: 'Done'; */
+  background-color: #28a745; /* Green for done */
+  left: 0;
+  transform: translateX(-100%); /* Initially hidden to the left */
+}
+
+.todo-item::after {
+  /* content: 'Delete'; */
+  background-color: #dc3545; /* Red for delete */
+  right: 0;
+  transform: translateX(100%); /* Initially hidden to the right */
+}
+
+/* Change text and color for left swipe indicator if item is completed */
+.todo-item.completed.swiping-left::after {
+  /* content: 'Undone'; */
+  background-color: #ffc107; /* Yellow for undone */
+}
+
+/* Show indicators when item is being dragged */
+.todo-item.swiping-right::before {
+  transform: translateX(0);
+}
+
+.todo-item.swiping-left::after {
+  transform: translateX(0);
+}
+
+
+.todo-item.completed {
+  background-color: #d4edda; /* Light green background */
+  color: #155724; /* Darker green text */
+  text-decoration: line-through;
+  border-color: #c3e6cb;
+}
+
+.todo-item.completed::before {
+  content: 'Undo';
+  background-color: #ffc107; 
+}
+
+/* Mobile first - styles outside media queries apply to all sizes unless overridden */
+
+@media (min-width: 769px) { /* Desktop adjustments */
+  .app {
+    padding-left: 15px; 
+    padding-right: 15px;
+    padding-top: 80px; /* Slightly more padding for desktop if header is larger */
+  }
+
+  .todo-item {
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+    border-top: 1px solid #eee; /* Add top border for the first item on desktop */
+    border-radius: 4px;
+    margin-bottom: 10px; /* Restore margin for distinct items on desktop */
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .todo-item:first-child {
+      border-top: 1px solid #eee; /* Ensure first item has top border */
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #242424;
+    color: rgba(255, 255, 255, 0.87);
+  }
+
+  .input-container {
+    background-color: #1e1e1e; /* Darker background for fixed header */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5); /* Darker shadow */
+  }
+
+  .input-container input[type="text"] {
+    background-color: #2c2c2c;
+    border-color: #555555;
+    color: rgba(255, 255, 255, 0.87);
+  }
+
+  .todo-item {
+    background-color: #333333;
+    border-bottom-color: #444444;
+    color: rgba(255, 255, 255, 0.87);
+  }
+
+  @media (min-width: 769px) { /* Desktop dark mode adjustments */
+    .todo-item {
+        border-left-color: #444444;
+        border-right-color: #444444;
+        border-top-color: #444444;
+        background-color: #2c2c2c; /* Slightly different item bg for desktop dark */
+    }
+    .todo-item:first-child {
+        border-top-color: #444444;
+    }
+  }
+
+  .todo-item.completed {
+    background-color: #2a573a; 
+    color: #a0d8b0;
+    text-decoration-color: #a0d8b0;
+    /* border-color already handled by .todo-item dark */
+  }
+
+  .read-the-docs {
+    color: #aaaaaa;
+  }
+}
