@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import Cookies from 'js-cookie';
 import TodoItem from './components/TodoItem';
-import { DragDropContext, Droppable } from '@hello-pangea/dnd'; // Updated import
 
 function App() {
   const [todos, setTodos] = useState(() => {
@@ -46,55 +45,28 @@ function App() {
     }
   };
 
-  const onDragEnd = (result) => {
-    const { source, destination } = result;
-    if (!destination) {
-      return; // Dropped outside the list
-    }
-    if (source.index === destination.index) {
-      return; // Dropped in the same place
-    }
-
-    const reorderedTodos = Array.from(todos);
-    const [removed] = reorderedTodos.splice(source.index, 1);
-    reorderedTodos.splice(destination.index, 0, removed);
-
-    setTodos(reorderedTodos);
-  };
-
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <div className="app">
-        <div className="input-container">
-          <input
-            type="text"
-            value={newTodo}
-            onChange={(e) => setNewTodo(e.target.value)}
-            placeholder="Add a new todo"
+    <div className="app">
+      <ul className="todo-list">
+        {todos.map((todo, index) => (
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            index={index}
+            handleSwipe={handleSwipe}
           />
-          <button onClick={handleAddTodo}>+</button>
-        </div>
-        <Droppable droppableId="todolist">
-          {(provided) => (
-            <ul
-              className="todo-list"
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
-              {todos.map((todo, index) => (
-                <TodoItem
-                  key={todo.id}
-                  todo={todo}
-                  index={index} // Pass index for Draggable
-                  handleSwipe={handleSwipe}
-                />
-              ))}
-              {provided.placeholder}
-            </ul>
-          )}
-        </Droppable>
+        ))}
+      </ul>
+      <div className="input-container">
+        <input
+          type="text"
+          value={newTodo}
+          onChange={(e) => setNewTodo(e.target.value)}
+          placeholder="Add a new todo"
+        />
+        <button onClick={handleAddTodo}>+</button>
       </div>
-    </DragDropContext>
+    </div>
   );
 }
 

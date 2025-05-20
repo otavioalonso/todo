@@ -73,7 +73,6 @@ h1 {
   display: flex;
   align-items: center;
   gap: 8px; 
-  
   position: fixed; /* Changed to fixed for very top */
   top: 0;
   left: 0; /* Ensure it starts from the left edge */
@@ -121,7 +120,12 @@ h1 {
 }
 
 .input-container button:hover {
-  background-color: #0056b3;
+  background-color: #004085; /* Darker blue on hover */
+}
+
+.input-container button:focus {
+  outline: 2px solid #0056b3; /* Highlight button on focus */
+  outline-offset: 2px;
 }
 
 .todo-list {
@@ -145,7 +149,19 @@ h1 {
   transition: background-color 0.3s ease, transform 0.2s ease-out; /* Added transform transition */
   user-select: none; /* Prevent text selection during drag */
   position: relative; /* For pseudo-elements */
-  overflow: hidden; /* Hide pseudo-elements initially */
+  overflow: visible; /* Hide pseudo-elements initially */
+}
+
+.todo-item:hover {
+  background-color: #f9f9f9; /* Subtle hover background */
+  transform: scale(1.01); /* Slight zoom effect */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow on hover */
+}
+
+/* Add focus styles for accessibility */
+.todo-item:focus {
+  outline: 2px solid #007bff; /* Highlight focused item */
+  outline-offset: 2px;
 }
 
 .todo-item::before,
@@ -160,18 +176,19 @@ h1 {
   justify-content: center;
   font-weight: bold;
   color: white;
-  transition: transform 0.2s ease-out;
+  transition: transform 0.1s ease-in-out;
+  width: 200px;
 }
 
 .todo-item::before {
-  /* content: 'Done'; */
+  content: 'done';
   background-color: #28a745; /* Green for done */
   left: 0;
   transform: translateX(-100%); /* Initially hidden to the left */
 }
 
 .todo-item::after {
-  /* content: 'Delete'; */
+  content: 'delete';
   background-color: #dc3545; /* Red for delete */
   right: 0;
   transform: translateX(100%); /* Initially hidden to the right */
@@ -179,19 +196,9 @@ h1 {
 
 /* Change text and color for left swipe indicator if item is completed */
 .todo-item.completed.swiping-left::after {
-  /* content: 'Undone'; */
+  content: 'undo';
   background-color: #ffc107; /* Yellow for undone */
 }
-
-/* Show indicators when item is being dragged */
-.todo-item.swiping-right::before {
-  transform: translateX(0);
-}
-
-.todo-item.swiping-left::after {
-  transform: translateX(0);
-}
-
 
 .todo-item.completed {
   background-color: #d4edda; /* Light green background */
@@ -251,6 +258,7 @@ h1 {
     border-bottom-color: #444444;
     color: rgba(255, 255, 255, 0.87);
   }
+
 
   @media (min-width: 769px) { /* Desktop dark mode adjustments */
     .todo-item {
